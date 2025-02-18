@@ -1,68 +1,62 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 10px;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+.article-card {
+    position: relative;
+    background-color: #e4faf9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px;
+    text-decoration: none;
+    color: black;
+    height: 170px;
 }
-a:hover {
-  color: #535bf2;
+  
+.articlecard-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+  
+.articlecard-content h3 {
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+  
+.articlecard-content p {
+    font-size: 14px;
+}
+  
+.article-title {
+    margin-bottom: 5px; 
+}
+  
+.article-info {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px; 
+}
+  
+.article-info p {
+    margin: 0 5px; 
+}
+  
+.article-topic {
+    margin-bottom: 10px;
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+.upvote-icon-container {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.upvote-icon-container img {
+    cursor: pointer;
+    width: 20px; 
+    height: 20px; 
 }
