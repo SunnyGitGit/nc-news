@@ -1,3 +1,3 @@
 export default function Footer() {
-  return <p className="footer">&copy; NC News</p>;
+  return <p className="footer">&copy; Sunny, Northcoders</p>;
 }

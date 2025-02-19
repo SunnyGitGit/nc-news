@@ -1,6 +1,7 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 
-export default function ArticleCard({ articleTitle, articleAuthor, articleCreateAt, articleTopic }) {
+export default function ArticleCard({ articleTitle, articleAuthor, articleCreateAt, articleTopic, articleVotes, articleId }) {
     const dateObject = new Date(articleCreateAt);
     const formattedDate = dateObject.toLocaleDateString('en-GB', {
       day: 'numeric',
@@ -9,18 +10,22 @@ export default function ArticleCard({ articleTitle, articleAuthor, articleCreate
     });
 
     return (
-    <div className="article-card">
-      <div className="articlecard-content">
-      <h3 className="article-title">{articleTitle}</h3>
-        <div className="article-info">
-          <p>by {articleAuthor}</p>
-          <p>{formattedDate}</p>
-        </div>
-        <p className="article-topic">Topic: {articleTopic}</p>
-      </div>
-      <div className="upvote-icon-container">
-        <img src="/images/upvote_icon.png" alt="Upvote Icon" />
-      </div>
-    </div>
-  );
+        <Link to={`/articles/${articleId}`} className="article-card-link">
+            <div className="article-card">
+                <div className="articlecard-content">
+                    <h3 className="article-title">{articleTitle}</h3>
+                    <div className="article-info">
+                    <p>by {articleAuthor}</p>
+                    <p>{formattedDate}</p>
+                    </div>
+                    <p className="article-topic">Topic: {articleTopic}</p>
+                </div>
+                <div className="vote-icon-container">
+                    <img src="/images/upvote_icon.png" alt="Upvote Icon" />
+                </div>
+            </div>
+        </Link>
+    );
 }
+
+

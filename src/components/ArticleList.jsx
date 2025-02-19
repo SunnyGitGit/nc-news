@@ -22,6 +22,8 @@ export default function ArticleList() {
                 articleAuthor={article.author}
                 articleCreateAt={article.created_at}
                 articleTopic={article.topic}
+                articleVotes={article.votes}
+                articleId={article.article_id}
                 />
             </div>
             ))}
@@ -29,3 +31,4 @@ export default function ArticleList() {
     </div>
   );
 }
+
