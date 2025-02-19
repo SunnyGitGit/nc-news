@@ -20,9 +20,10 @@ export default function ArticleList() {
             <ArticleCard 
                 articleTitle={article.title} 
                 articleAuthor={article.author}
-                articleCreateAt={article.created_at}
+                articleCreatedAt={article.created_at}
                 articleTopic={article.topic}
                 articleVotes={article.votes}
+                // articleImgUrl={article.article_img_url}
                 articleId={article.article_id}
                 />
             </div>
