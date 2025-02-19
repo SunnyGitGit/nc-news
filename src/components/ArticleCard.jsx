@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 
-export default function ArticleCard({ articleTitle, articleAuthor, articleCreateAt, articleTopic, articleVotes, articleId }) {
-    const dateObject = new Date(articleCreateAt);
+export default function ArticleCard({ articleTitle, articleAuthor, articleCreatedAt, articleTopic, articleVotes, articleId }) {
+    const dateObject = new Date(articleCreatedAt);
     const formattedDate = dateObject.toLocaleDateString('en-GB', {
       day: 'numeric',
       month: 'short',

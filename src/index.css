@@ -53,12 +53,20 @@
     margin-bottom: 10px;
 }
 
+.article-img-url {
+    height: 200px;
+    width: 70%;
+    align-self: flex-start;
+    margin-right: 200px;
+}
+
 .vote-icon-container {
     position:relative;
-    bottom: 20px;
+    bottom: 100px;
     right: 10px;
     text-align: right;
 }
+
 
 .vote-icon-container img {
     cursor: pointer;
@@ -68,6 +76,10 @@
 }
 
 .comments-link {
-    background-color: rgb(229, 245, 195);
+    background-color: rgb(228, 247, 241);
     padding: 5px;
+}
+
+.comments-link:hover {
+    background-color: #6ba6e6;
 }

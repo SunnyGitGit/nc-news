@@ -1,6 +1,6 @@
 import { getArticleById } from "../assets/api";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 export default function ArticleDetails() {
     const { articleId } = useParams();
@@ -22,17 +22,23 @@ export default function ArticleDetails() {
         <div className="article-details">
             <h2>{article.title}</h2>
             <p>Author: {article.author}</p>
+            {/* <img src={article.article_img_url} alt={article_img_url} /> */}
+            <img className="article-img-url" src={"https://images.pexels.com/photos/11035380/pexels-photo-11035380.jpeg?w=700&h=700"} alt="Article image" />
             <div className="vote-icon-container">
-                <img src="/images/upvote_icon.png" alt="Upvote Icon"/>
-                <img src="/images/downvote_icon.png" alt="Downvote Icon"/>
-                Votes: {article.votes}
+              <div className="vote-icons">
+                  <img src="/images/upvote_icon.png" alt="Upvote Icon"/>
+                  <img src="/images/downvote_icon.png" alt="Downvote Icon"/>
+              </div>
+              <p className="vote-count">Votes: {article.votes}</p>
             </div>
             <p>Topic: {article.topic}</p>
             <p>Description: {article.body}</p>
             <br></br>
             <br></br>
-            <p>Created at: {article.formattedDate}</p>         
-            <button className="comments-link">View Comments</button>
+            <p>Created at: {article.formattedDate}</p> 
+            <Link to={`/articles/${articleId}/comments`} state={{ articleTitle: article.title }}>
+              <button className="comments-link">View Comments</button>
+            </Link>
         </div>
     );
 };
