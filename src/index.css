@@ -83,3 +83,24 @@
 .comments-link:hover {
     background-color: #6ba6e6;
 }
+.comment-author-info {
+    color: rgb(52, 75, 191);
+}
+
+.textareaStyle  {
+    resize: vertical;
+    min-height: 100px; 
+    width: 500px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px
+}
+
+.buttonStyle:hover {
+    cursor: pointer;
+}
+
+.buttonStyle {
+    margin: 0 5px; 
+}
