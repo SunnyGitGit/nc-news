@@ -32,3 +32,14 @@ export const postComment = (articleId, username, comment) => {
         body: comment,
     });
 };
+
+export const getUsers = () => {
+    return ncNewsApi.get("/users").then((res) => {
+        return res.data.users;
+    });
+};
+
+export const deleteCommentById = (commentId) => {
+    return ncNewsApi.delete(`/comments/${commentId}`, {
+    });
+};
