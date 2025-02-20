@@ -1,15 +1,30 @@
 import { useEffect, useState } from "react";
+import { useResolvedPath } from "react-router-dom";
 import { getArticles } from "../assets/api";
 import ArticleCard from "./ArticleCard";
 
 export default function ArticleList() {
   const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    getArticles().then((articles) => {
-      setArticles(articles);
-    });
+    setLoading(true);
+    setError(null);
+
+    getArticles()
+      .then((articles) => {
+        setArticles(articles);
+        setLoading(false);
+    })
+    .catch((error) => {
+      setError(error.message);
+      setLoading(false);
+    })
   }, []);
+
+  if (loading) return <p>Loading articles...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <div className="articlelist-card-container">

@@ -54,7 +54,7 @@
 }
 
 .article-img-url {
-    height: 200px;
+    height: 250px;
     width: 70%;
     align-self: flex-start;
     margin-right: 200px;
@@ -75,14 +75,6 @@
     padding: 5px;
 }
 
-.comments-link {
-    background-color: rgb(228, 247, 241);
-    padding: 5px;
-}
-
-.comments-link:hover {
-    background-color: #6ba6e6;
-}
 .comment-author-info {
     color: rgb(52, 75, 191);
 }
@@ -103,4 +95,31 @@
 
 .buttonStyle {
     margin: 0 5px; 
+    background-color: rgb(237, 187, 122);
 }
+
+.header {
+    display: grid;
+    align-items: center;
+    padding: 10px;
+    background-color: none;
+    border-bottom: 1px solid #ddd;
+}
+  
+.header-title {
+    grid-column: 2;
+    text-align: center;
+    margin: 0;
+}
+  
+.user-selection {
+    grid-column: 3;
+    justify-self: end;
+    display: flex;
+    align-items: center;
+}
+  
+.user-selection label {
+    margin-right: 10px;
+}
+  

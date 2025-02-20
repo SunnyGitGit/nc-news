@@ -1,55 +1,56 @@
 import { useEffect, useState } from "react";
-import { getCommentsById, postComment } from "../assets/api";
-import { useParams, useLocation } from "react-router-dom";
+import { getCommentsById, postComment, deleteCommentById } from "../assets/api";
+import { useParams } from "react-router-dom";
 import CommentCard from "./CommentCard";
 
-export default function CommentList() {
+export default function CommentList({ selectedUser}) {
   const { articleId } = useParams();
-  const location = useLocation();
-  const articleTitle = location.state?.articleTitle || "Article";
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
-  const [username, setUsername] = useState("");
+  const [deletingComment, setDeletingComment] = useState({})
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const handleNewCommentChange = (event) => {
     setNewComment(event.target.value);
-    if (username.trim() !== "" && event.target.value !=="") {
+    if (selectedUser.trim() !== "" && event.target.value !== "") {
       setError(null);
     }
-  }
-
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
-    if (newComment.trim() !== "" && event.target.value !=="") {
-      setError(null);
-    }
-  }
+  };
 
   useEffect(() => {
-    getCommentsById(articleId).then((comments) => {
-      setComments(comments);
-    });
-  }, [articleId]);
+    setLoading(true);
+    getCommentsById(articleId)
+      .then((comments) => {
+        setComments(comments);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setError(error.message);
+        setLoading(false);
+      });
+  }, [articleId]); 
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (newComment.trim() === "" || username.trim() === "") {
+    if (newComment.trim() === "" || selectedUser.trim() === "") {
       setError("Both comment and username are required.");
       return;
     }
     setError(null);
     setIsSubmitting(true);
 
-    postComment(articleId, username, newComment)
+   postComment(articleId, selectedUser, newComment)
     .then((response) => {
       setComments([...comments, response.data.comment]);
       setNewComment("");
-      setUsername("");
       setError(null);
       setSuccessMessage("Comment added successfully!");
+      setTimeout(() => {
+        setSuccessMessage("");
+      }, 2000);
     })
     .catch((error) => {
       setError(error.message);
@@ -57,25 +58,55 @@ export default function CommentList() {
     .finally(() => {
       setIsSubmitting(false);
     })
-  }
+  };
+
+  const handleDeleteComment = (commentId) => {
+    if (deletingComment[commentId]) return;
+
+    setLoading(true);
+    setDeletingComment(prev => ({ ...prev, [commentId]: true }));
+
+    deleteCommentById(commentId)
+      .then(() => {
+        setComments(comments.filter(comment => comment.comment_id !== commentId));
+        setLoading(false);
+        setSuccessMessage("Comment deleted successfully!");
+        setTimeout(() => {
+          setSuccessMessage("");
+        }, 2000);
+      })
+      .catch((error) => {
+        setError(error.message);
+        setLoading(false);
+      })
+      .finally(() => {
+        setDeletingComment(prev => ({ ...prev, [commentId]: false }));
+      });
+  };
+
+  if (loading) return <p>Loading comments...</p>;
+  if (error) return <p>Error: {error}</p>;
+
   return (
     <div className="commments-card-container">
-        <h2>Comments for {articleTitle}</h2>
+      <br/>
+        <h2>Comments</h2>
         <div className="comments-list">
             {comments.map((comment) => (
-            <div key={comment.comment_id}>
             <CommentCard 
-                articleId={comment.article_id} 
-                commentAuthor={comment.author}
-                commentBody={comment.body}
-                commentVotes={comment.votes}
-                commentCreatedAt={comment.created_at}
-                />
-            </div>
+              key={comment.comment_id}
+              comment_id={comment.comment_id}
+              body={comment.body}
+              articleId={comment.article_id} 
+              author={comment.author}
+              createdAt={comment.created_at}
+              selectedUser={selectedUser}
+              onDelete={handleDeleteComment}
+              />
             ))}
         </div>
-        <br></br>
-        <br></br>
+        <br />
+        <br />
         <div className="add_comment">
           <h3>Would like to add a comment?</h3>
             <form onSubmit={handleSubmit} className="formStyle">
@@ -89,20 +120,8 @@ export default function CommentList() {
                 className="textareaStyle"
                 autoComplete="off"
               />
-              <br></br>
-              <label htmlFor="username" className="lableStyle">
-                Username: {" "}
-              </label>
-              <input
-                type="text"
-                id="username"
-                name="username"
-                value={username}
-                onChange={handleUsernameChange}
-                className="inputStyle"
-                autoComplete="username"
-              />
-              <button type="submit" className="buttonStyle">
+              <br />
+              <button type="submit" className="buttonStyle" disabled={isSubmitting}>
                 Submit
               </button>
             </form>

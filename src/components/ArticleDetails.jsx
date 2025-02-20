@@ -1,23 +1,42 @@
 import { getArticleById, voteOnArticle } from "../assets/api";
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import CommentList from "./CommentList";
+import { UserContext } from "../components/UserContext";
+import { useContext } from "react";
 
 export default function ArticleDetails() {
-    const { articleId } = useParams();
-    const [article, setArticle] = useState({});
-    const [votes, setVotes] = useState(0);
-    const [error, setError] = useState(null);
+  const { articleId } = useParams();
+  const [article, setArticle] = useState({});
+  const [votes, setVotes] = useState(0);
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const { selectedUser } = useContext(UserContext);
 
-    useEffect(() => {
-      getArticleById(articleId).then((article) => {
+  useEffect(() => {
+    setLoading(true)
+    setError(null)
+
+    getArticleById(articleId)
+      .then((article) => {
+        if (!article) {
+        return setError("Article not found");
+        }
+
         const dateObject = new Date(article.created_at);
         const formattedDate = dateObject.toLocaleDateString('en-GB', {
           day: 'numeric',
           month: 'short',
           year: 'numeric',
         });
+
         setArticle({ ...article, formattedDate });
         setVotes(article.votes);
+        setLoading(false);        
+      })
+      .catch((error) => {
+        setError(error.message);
+        setLoading(false);
       });
     }, [articleId]); 
 
@@ -29,6 +48,9 @@ export default function ArticleDetails() {
         setError("Failed to update votes");
       });
     }
+
+    if (loading) return <p>Loading article...</p>  
+    if (error) return <p>Error: {error}</p>  
 
     return (
         <div className="article-details">
@@ -54,9 +76,7 @@ export default function ArticleDetails() {
             <br></br>
             <br></br>
             <p>Created at: {article.formattedDate}</p> 
-            <Link to={`/articles/${articleId}/comments`} state={{ articleTitle: article.title }}>
-              <button className="comments-link">View Comments</button>
-            </Link>
+            <CommentList selectedUser={selectedUser}/>
         </div>
     );
 };
