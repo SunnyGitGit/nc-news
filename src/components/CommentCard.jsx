@@ -11,7 +11,7 @@ export default function CommentCard({ commentAuthor, commentBody, commentCreated
     return (
         <div className="comment-card">
             <div className="commentcard-content">
-                <h3 className="comment-body">{commentBody}</h3>
+                <p className="comment-body">{commentBody}</p>
                 <div className="comment-author-info">
                 <p>by {commentAuthor}, {formattedDate}</p>
                 </div>

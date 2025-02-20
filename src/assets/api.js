@@ -24,4 +24,11 @@ export const getCommentsById = (articleId) => {
 
 export const voteOnArticle = (articleId, voteChange) => {
     return ncNewsApi.patch(`/articles/${articleId}`, { inc_votes: voteChange });
-}
+};
+
+export const postComment = (articleId, username, comment) => {
+    return ncNewsApi.post(`/articles/${articleId}/comments`, {
+        username: username,
+        body: comment,
+    });
+};
