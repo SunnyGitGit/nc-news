@@ -10,8 +10,8 @@ import ErrorPage from "./components/ErrorPage";
 export default function App() {
   return (
     <div className="App">
-      <Header />
       <Router>
+        <Header />
         <Routes>
           <Route path="/" element={<ArticleList />} />
           <Route path="/articles" element={<ArticleList />} />

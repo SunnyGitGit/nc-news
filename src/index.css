@@ -37,12 +37,14 @@
 
 .article-title {
     margin-bottom: 5px; 
+    color: black;
 }
   
 .article-info {
     display: flex;
     justify-content: center;
     margin-bottom: 15px; 
+    color: rgb(52, 75, 191);
 }
   
 .article-info p {
@@ -51,6 +53,7 @@
   
 .article-topic {
     margin-bottom: 10px;
+    color: black;
 }
 
 .article-img-url {
@@ -97,21 +100,6 @@
     margin: 0 5px; 
     background-color: rgb(237, 187, 122);
 }
-
-.header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px;
-    background-color: none;
-    border-bottom: 1px solid #ddd;
-}
-
-.header h1 {
-    flex: 1; 
-    text-align:left;
-    margin-left: 50px;
-}
   
 .selection {
     justify-self: end;
@@ -124,7 +112,7 @@
 }
   
 .selection select {
-    width: 160px; /* 드롭다운 메뉴 너비 */
-    height: 30px; /* 드롭다운 메뉴 높이 */
-    font-size: 15px; /* 글자 크기 */
+    width: 160px; 
+    height: 30px; 
+    font-size: 15px; 
 }

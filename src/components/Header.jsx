@@ -1,10 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
 import { UserContext } from "../components/UserContext";
-import { getUsers } from "../assets/api"
+import { getUsers } from "../assets/api";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
   const { selectedUser, setSelectedUser} = useContext(UserContext);
   const [users, setUsers] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getUsers().then((users) => {
@@ -19,6 +21,7 @@ export default function Header() {
   return (
     <header className="header">
       <h1>NC News</h1>
+      <button className="home-button" onClick={() => navigate("/")}>Home</button>
       <div className="selection">
         {selectedUser ? (<p>Welcome, {selectedUser}</p>) : (
           <>

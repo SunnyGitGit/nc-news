@@ -14,3 +14,34 @@
   bottom: 0;
   width: 100%;
 }
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: none;
+  border-bottom: 1px solid #ddd;
+}
+
+.header h1 {
+  flex: 1; 
+  text-align:left;
+  margin-left: 50px;
+}
+
+.home-button {
+  order: -1; 
+  margin-right: 20px;
+  padding: 10px;
+  background-color: #69a6e8;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 8px;
+}
+
+.home-button:hover {
+  background-color: #0056b3;
+}
