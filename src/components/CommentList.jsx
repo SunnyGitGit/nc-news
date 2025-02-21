@@ -59,7 +59,7 @@ export default function CommentList({ selectedUser}) {
       }, 2000);
     })
     .catch((error) => {
-      setError(error.message);
+      setError("Error adding a comment: " + error.message);
     })
     .finally(() => {
       setIsSubmitting(false);
@@ -82,7 +82,7 @@ export default function CommentList({ selectedUser}) {
         }, 2000);
       })
       .catch((error) => {
-        setError(error.message);
+        setError("Error deleting a comment: " + error.message);
         setLoading(false);
       })
       .finally(() => {
@@ -91,7 +91,7 @@ export default function CommentList({ selectedUser}) {
   };
 
   if (loading) return <p>Loading comments...</p>;
-  if (error) return <p>Error: {error}</p>;
+  if (error && !successMessage) return <p>Error: {error}</p>;  
 
   return (
     <div className="commments-card-container">
@@ -135,7 +135,7 @@ export default function CommentList({ selectedUser}) {
           ) : (
             <p>Please log in to add a comment.</p>
           )}
-            {error && <p className="error">{error}</p>}
+            {error && !successMessage && <p className="error">{error}</p>}
             {successMessage && <p className="success">{successMessage}</p>}
         </div>
     </div>
