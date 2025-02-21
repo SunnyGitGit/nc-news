@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { getArticles, getArticlesByTopic, getTopics } from "../assets/api";
 import ArticleCard from "./ArticleCard";
 
@@ -15,16 +15,20 @@ export default function ArticleList() {
   const [selectedTopic, setSelectedTopic] = useState(topic || "");
   const [selectedSortValue, setSelectedSortValue] = useState(sortBy);
   const [selectedOrderValue, setSelectedOrderValue] = useState(order);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getTopics()
       .then((topics) => {
         setTopics(topics);
+        if (topic && !topics.some((t) => t.slug === topic)) {
+          navigate("/404");
+        }
       })
       .catch((error) => {
         setError(error.message);
       })
-  }, []);
+  }, [topic, navigate]);
 
   useEffect(() => {
     setLoading(true);
@@ -37,9 +41,11 @@ export default function ArticleList() {
         order: selectedOrderValue,
       };
 
-      getArticlesByTopic(params)
-        .then((filteredArticles) => {
-          setArticles(filteredArticles);
+      const getMethod = selectedTopic ? getArticlesByTopic : getArticles;
+
+      getMethod(params)
+        .then((articles) => {
+          setArticles(articles);
           setLoading(false);
         })
         .catch((error) => {
@@ -47,6 +53,7 @@ export default function ArticleList() {
           setLoading(false);
         });
     };
+
     fetchArticles();
   }, [selectedTopic, selectedSortValue, selectedOrderValue]);
 

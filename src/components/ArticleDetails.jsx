@@ -1,6 +1,6 @@
 import { getArticleById, voteOnArticle } from "../assets/api";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import CommentList from "./CommentList";
 import { UserContext } from "../components/UserContext";
 import { useContext } from "react";
@@ -12,6 +12,7 @@ export default function ArticleDetails() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const { selectedUser } = useContext(UserContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true)
@@ -20,7 +21,8 @@ export default function ArticleDetails() {
     getArticleById(articleId)
       .then((article) => {
         if (!article) {
-        return setError("Article not found");
+          navigate("/404")
+        return 
         }
 
         const dateObject = new Date(article.created_at);
@@ -37,8 +39,9 @@ export default function ArticleDetails() {
       .catch((error) => {
         setError(error.message);
         setLoading(false);
+        navigate("/404")
       });
-    }, [articleId]); 
+    }, [articleId, navigate]); 
 
     const handleVote = (change) => {
       setVotes((currentVotes) => currentVotes + change);
