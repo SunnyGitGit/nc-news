@@ -33,6 +33,12 @@ export default function CommentList({ selectedUser}) {
       });
   }, [articleId]); 
 
+  useEffect(() => {
+    if (selectedUser) {
+      setError(null);
+    }
+  }, [selectedUser]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     if (newComment.trim() === "" || selectedUser.trim() === "") {
@@ -108,7 +114,8 @@ export default function CommentList({ selectedUser}) {
         <br />
         <br />
         <div className="add_comment">
-          <h3>Would like to add a comment?</h3>
+          <h3>Would you like to add a comment?</h3>
+          {selectedUser ? (
             <form onSubmit={handleSubmit} className="formStyle">
               <label htmlFor="new_comment" className="lableStyle">
               </label>
@@ -125,9 +132,14 @@ export default function CommentList({ selectedUser}) {
                 Submit
               </button>
             </form>
+          ) : (
+            <p>Please log in to add a comment.</p>
+          )}
             {error && <p className="error">{error}</p>}
             {successMessage && <p className="success">{successMessage}</p>}
         </div>
     </div>
   );
 }
+
+
