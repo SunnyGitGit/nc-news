@@ -19,7 +19,7 @@ export default function Header() {
   return (
     <header className="header">
       <h1>NC News</h1>
-      <div className="user-selection">
+      <div className="selection">
         {selectedUser ? (<p>Welcome, {selectedUser}</p>) : (
           <>
             <label htmlFor="user-select">Login to your account: </label>

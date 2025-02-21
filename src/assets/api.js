@@ -44,8 +44,9 @@ export const deleteCommentById = (commentId) => {
     });
 };
 
-export const getArticlesByTopic= (topic) => {
-    return ncNewsApi.get(`/articles?topic=${topic}`).then((res) => {
+export const getArticlesByTopic= (params) => {
+    const query = new URLSearchParams(params).toString();
+    return ncNewsApi.get(`/articles?${query}`).then((res) => {
         return res.data.articles;
     });
 };

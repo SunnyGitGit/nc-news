@@ -7,10 +7,14 @@ export default function ArticleList() {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchParams] = useSearchParams();
-  const topicName = searchParams.get("topic");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const topic = searchParams.get("topic");
+  const sortBy = searchParams.get("sort_by") || "created_at";
+  const order = searchParams.get("order") || "desc";
   const [topics, setTopics] = useState([]);
-  const [selectedTopic, setSelectedTopic] = useState(topicName || "");
+  const [selectedTopic, setSelectedTopic] = useState(topic || "");
+  const [selectedSortValue, setSelectedSortValue] = useState(sortBy);
+  const [selectedOrderValue, setSelectedOrderValue] = useState(order);
 
   useEffect(() => {
     getTopics()
@@ -27,33 +31,44 @@ export default function ArticleList() {
     setError(null);
 
     const fetchArticles = () => {
-      if (selectedTopic) {
-        getArticlesByTopic(selectedTopic)
-          .then((filteredArticles) => {
-            setArticles(filteredArticles);
-            setLoading(false);
-          })
-          .catch((error) => {
-            setError(error.message);
-            setLoading(false);
-          });
-      } else {
-        getArticles()
-          .then((articles) => {
-            setArticles(articles);
-            setLoading(false);
-          })
-          .catch((error) => {
-            setError(error.message);
-            setLoading(false);
-          });
+      const params = {
+        topic: selectedTopic,
+        sort_by: selectedSortValue,
+        order: selectedOrderValue,
       };
+
+      getArticlesByTopic(params)
+        .then((filteredArticles) => {
+          setArticles(filteredArticles);
+          setLoading(false);
+        })
+        .catch((error) => {
+          setError(error.message);
+          setLoading(false);
+        });
     };
     fetchArticles();
-  }, [selectedTopic]);
+  }, [selectedTopic, selectedSortValue, selectedOrderValue]);
 
   const handleTopicChange = (event => {
-    setSelectedTopic(event.target.value);
+    const newTopic = event.target.value;
+
+    setSelectedTopic(newTopic);
+    setSearchParams({ topic:newTopic, sort_by: selectedSortValue, order: selectedOrderValue });
+  });
+
+  const handleSortChange = (event => {
+    const newSortBy = event.target.value;
+
+    setSelectedSortValue(newSortBy);
+    setSearchParams({ topic: selectedTopic, sort_by: newSortBy, order: selectedOrderValue});
+  });
+
+  const handleOrderChange = (event => {
+    const newOrder = event.target.value;
+
+    setSelectedOrderValue(newOrder);
+    setSearchParams({ topic: selectedTopic, sort_by: selectedSortValue, order: newOrder });
   });
 
   if (loading) return <p>Loading articles...</p>;
@@ -62,8 +77,8 @@ export default function ArticleList() {
   return (
     <div className="articlelist-card-container">
         <h2>Articles</h2>
-        <div className="topic-selection">
-            <label htmlFor="topic-select">Search Articles by Topic: </label>
+        <div className="selection">
+            <label htmlFor="topic-select">Search articles by topic: </label>
             <select id="topic-select" value={selectedTopic} onChange={handleTopicChange}>
               <option value="">All topics</option>
               {topics.map((topic) => (
@@ -71,6 +86,17 @@ export default function ArticleList() {
                   {topic.slug}
                 </option>
               ))}
+            </select>
+            <label htmlFor="sorting-select">&emsp; Sort by: </label>
+            <select id="sorting-select" value={selectedSortValue} onChange={handleSortChange}>
+              <option value="created_at">date</option>
+              <option value="comment_count">comment count</option>
+              <option value="votes">votes</option>
+            </select>
+            <label htmlFor="order-select">&emsp;  Order by: </label>
+            <select id="order-select" value={selectedOrderValue} onChange={handleOrderChange}>
+              <option value="desc">descending</option>
+              <option value="asc">ascending</option>
             </select>
         </div>
         <br />
